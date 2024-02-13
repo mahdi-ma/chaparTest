@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Services\OrderService;
 use App\Models\Order;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -17,25 +18,24 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+
+        return response()->json($this->orderService->index($request));
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreOrderRequest $request)
+    public function store(StoreOrderRequest $request): JsonResponse
     {
-        $this->orderService->storeOrder($request);
+        return $this->orderService->storeOrder($request);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateOrderRequest $request, Order $order)
+    public function update(UpdateOrderRequest $request, Order $order): JsonResponse
     {
-        $this->orderService->updateOrder($order, $request);
+        return $this->orderService->updateOrder($order, $request);
+    }
+
+    public function packageCount(Order $order): JsonResponse
+    {
+        return $this->orderService->packageCount($order);
     }
 }

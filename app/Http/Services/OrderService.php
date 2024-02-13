@@ -3,13 +3,25 @@
 namespace App\Http\Services;
 
 use App\Models\Order;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
 class OrderService
 {
     public function __construct(protected Order $order, protected CustomerService $customerService)
     {
+    }
 
+    public function index($request): LengthAwarePaginator
+    {
+        $query = Order::query();
+        if ($request->has('id')) {
+            $query->where('id', $request->input('id'));
+        }
+        if ($request->has('status_id')) {
+            $query->where('status_id', $request->input('status_id'));
+        }
+        return $query->paginate(10);
     }
 
     public function storeOrder($orderRequest)
@@ -32,13 +44,18 @@ class OrderService
             ];
         }
         $order->packages()->createMany($packagesData);
-        return $order;
+        return response()->json($order);
     }
 
     public function updateOrder($order, $orderRequest)
     {
         $order->update(['status_id', $orderRequest->status_id]);
         $order->statses()->save($orderRequest->status_id);
-        return $order;
+        return response()->json($order);
+    }
+
+    public function packageCount($order)
+    {
+        return response()->json($order->packages->count());
     }
 }

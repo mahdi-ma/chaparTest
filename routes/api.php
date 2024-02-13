@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('/order', OrderController::class)->except('destroy');
+Route::get('/order/{order}/packageCount', [OrderController::class, 'packageCount'])->name('orders.packageCount');
