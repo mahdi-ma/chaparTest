@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Order;
+use App\Models\Status;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
@@ -57,5 +58,10 @@ class OrderService
     public function packageCount($order)
     {
         return response()->json($order->packages->count());
+    }
+
+    public function statusesIndex(): array
+    {
+        return Status::query()->select('name', 'id')->get()->toArray();
     }
 }

@@ -174,4 +174,8 @@ class OrderController extends Controller
     {
         return $this->orderService->packageCount($order);
     }
+    public function statusesIndex(): array
+    {
+        return $this->orderService->statusesIndex();
+    }
 }
