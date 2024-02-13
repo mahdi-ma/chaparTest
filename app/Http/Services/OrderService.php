@@ -34,4 +34,11 @@ class OrderService
         $order->packages()->createMany($packagesData);
         return $order;
     }
+
+    public function updateOrder($order, $orderRequest)
+    {
+        $order->update(['status_id', $orderRequest->status_id]);
+        $order->statses()->save($orderRequest->status_id);
+        return $order;
+    }
 }

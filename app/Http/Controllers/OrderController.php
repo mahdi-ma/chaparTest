@@ -36,6 +36,6 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        $this->orderService->updateOrder($order, $request);
     }
 }
